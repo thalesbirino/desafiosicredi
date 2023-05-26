@@ -1,13 +1,12 @@
 package com.sicredi.desafio.service;
 
 import com.sicredi.desafio.dto.PautaDTO;
+import com.sicredi.desafio.exception.BusinessException;
 import com.sicredi.desafio.model.Pauta;
 import com.sicredi.desafio.repository.PautaRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.persistence.EntityNotFoundException;
 
 @Service
 @Slf4j
@@ -37,7 +36,7 @@ public class PautaService {
         log.info("Busca de pauta iniciada. ID: {}", id);
 
         Pauta pauta = pautaRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Pauta não encontrada"));
+                .orElseThrow(() -> new BusinessException("Pauta não encontrada"));
 
         log.info("Pauta encontrada: {}", pauta);
 

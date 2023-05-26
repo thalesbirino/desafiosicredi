@@ -1,0 +1,46 @@
+package com.sicredi.desafio.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import software.amazon.awssdk.services.sqs.SqsClient;
+import software.amazon.awssdk.services.sqs.model.*;
+
+@Service
+public class SqsService {
+
+    private final SqsClient sqsClient;
+    private final String queueUrl;
+
+    @Autowired
+    public SqsService(SqsClient sqsClient, @Value("${aws.sqs.queue-url}") String queueUrl) {
+        this.sqsClient = sqsClient;
+        this.queueUrl = queueUrl;
+    }
+
+    public void sendMessage(String messageBody) {
+//        SendMessageRequest request = SendMessageRequest.builder()
+//                .queueUrl(queueUrl)
+//                .messageBody(messageBody)
+//                .build();
+//
+//        sqsClient.sendMessage(request);
+    }
+
+    public ReceiveMessageResponse receiveMessages() {
+        ReceiveMessageRequest request = ReceiveMessageRequest.builder()
+                .queueUrl(queueUrl)
+                .build();
+
+        return sqsClient.receiveMessage(request);
+    }
+
+    public void deleteMessage(String receiptHandle) {
+        DeleteMessageRequest request = DeleteMessageRequest.builder()
+                .queueUrl(queueUrl)
+                .receiptHandle(receiptHandle)
+                .build();
+
+        sqsClient.deleteMessage(request);
+    }
+}

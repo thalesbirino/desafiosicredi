@@ -32,6 +32,10 @@ public class SessaoVotacao {
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss", shape = JsonFormat.Shape.STRING)
     private LocalDateTime encerramento;
 
+    @Column(name = "resultado_divulgado",nullable = false)
+    private boolean resultadoDiulgado;
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
