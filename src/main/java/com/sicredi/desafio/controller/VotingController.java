@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -32,7 +33,7 @@ public class VotingController {
     }
 
     @PostMapping("/pautas")
-    public ResponseEntity<Pauta> cadastrarPauta(@RequestBody PautaDTO pautaDTO) {
+    public ResponseEntity<Pauta> cadastrarPauta(@RequestBody @Valid PautaDTO pautaDTO) {
         log.info("Endpoint '/pautas' chamado. Body: {}", pautaDTO);
         Pauta pauta = pautaService.cadastrarPauta(pautaDTO);
         log.info("Pauta cadastrada com sucesso. ID: {}", pauta.getId());
@@ -40,7 +41,7 @@ public class VotingController {
     }
 
     @PostMapping("/sessoes-votacao")
-    public ResponseEntity<SessaoVotacao> abrirSessaoVotacao(@RequestBody SessaoVotacaoDTO sessaoVotacaoDTO) {
+    public ResponseEntity<SessaoVotacao> abrirSessaoVotacao(@Valid @RequestBody SessaoVotacaoDTO sessaoVotacaoDTO) {
         log.info("Endpoint '/sessoes-votacao' chamado. Body: {}", sessaoVotacaoDTO);
         SessaoVotacao sessaoVotacao = sessaoVotacaoService.abrirSessaoVotacao(sessaoVotacaoDTO);
         log.info("Sessão de votação aberta com sucesso. ID: {}", sessaoVotacao.getId());
@@ -48,7 +49,7 @@ public class VotingController {
     }
 
     @PostMapping("/votos")
-    public ResponseEntity<Void> votar(@RequestBody VotoDTO votoDTO) {
+    public ResponseEntity<Void> votar(@Valid @RequestBody VotoDTO votoDTO) {
         log.info("Endpoint '/votos' chamado. Body: {}", votoDTO);
         votoService.votar(votoDTO);
         log.info("Voto registrado com sucesso.");
