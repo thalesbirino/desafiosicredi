@@ -19,12 +19,11 @@ public class SqsService {
     }
 
     public void sendMessage(String messageBody) {
-//        SendMessageRequest request = SendMessageRequest.builder()
-//                .queueUrl(queueUrl)
-//                .messageBody(messageBody)
-//                .build();
-//
-//        sqsClient.sendMessage(request);
+        SendMessageRequest request = SendMessageRequest.builder()
+                .queueUrl(queueUrl)
+                .messageBody(messageBody)
+                .build();
+        sqsClient.sendMessage(request);
     }
 
     public ReceiveMessageResponse receiveMessages() {

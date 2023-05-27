@@ -70,7 +70,7 @@ public class EnviarResultadoVotacaoSchedule {
         Map<String, Map<Boolean, Long>> contagemVotosPorPautaETipo = sessaoVotacaos.stream()
                 .flatMap(sessaoVotacao -> votoService.buscarVotos(sessaoVotacao.getPauta().getId()).stream())
                 .collect(Collectors.groupingBy(
-                        voto -> voto.getPauta().getDescricao(),
+                        voto -> voto.getPauta().getDescricao() + " - " +voto.getPauta().getId(),
                         Collectors.groupingBy(Voto::isVoto, Collectors.counting())
                 ));
         return contagemVotosPorPautaETipo;
