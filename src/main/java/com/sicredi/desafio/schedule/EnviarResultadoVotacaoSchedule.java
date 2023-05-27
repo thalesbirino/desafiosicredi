@@ -35,15 +35,20 @@ public class EnviarResultadoVotacaoSchedule {
 
     @Scheduled(fixedDelay = 10000)
     public void enviarResultados() {
+        log.info("Iniciando envio de resultados...");
+
         List<SessaoVotacao> sessaoVotacaos = sessaoVotacaoService.buscarSessoesEncerradasComResultadosNaoEnviados();
         Map<String, Map<Boolean, Long>> contagemVotosPorPautaETipo = getContagemVotosPorPautaETipo(sessaoVotacaos);
         List<PautaContagemVotos> listaPautaContagemVotos = mapToPautaContagemVotos(contagemVotosPorPautaETipo);
+
         listaPautaContagemVotos.forEach(pautaContagemVotos -> {
             String json = converterParaJson(pautaContagemVotos);
             sqsService.sendMessage(json);
+            log.info("Mensagem enviada para a fila: {}", json);
         });
+
         sessaoVotacaoService.concluirEnvio(sessaoVotacaos);
-        log.info("Numero de votos por tipo:{}", listaPautaContagemVotos);
+        log.info("Envio de resultados concluído. Número de votos por tipo: {}", listaPautaContagemVotos);
     }
 
     private String converterParaJson(Object o) {
