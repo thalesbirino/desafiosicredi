@@ -33,22 +33,20 @@ public class EnviarResultadoVotacaoSchedule {
         this.votoService = votoService;
     }
 
-    @Scheduled(fixedDelay = 10000)
+    @Scheduled(fixedDelay = 60000)
     public void enviarResultados() {
-        log.info("Iniciando envio de resultados...");
 
         List<SessaoVotacao> sessaoVotacaos = sessaoVotacaoService.buscarSessoesEncerradasComResultadosNaoEnviados();
         Map<String, Map<Boolean, Long>> contagemVotosPorPautaETipo = getContagemVotosPorPautaETipo(sessaoVotacaos);
         List<PautaContagemVotos> listaPautaContagemVotos = mapToPautaContagemVotos(contagemVotosPorPautaETipo);
-
         listaPautaContagemVotos.forEach(pautaContagemVotos -> {
+            log.info("Iniciando envio de resultados...");
             String json = converterParaJson(pautaContagemVotos);
             sqsService.sendMessage(json);
             log.info("Mensagem enviada para a fila: {}", json);
+            log.info("Envio de resultados concluído. Número de votos por tipo: {}", listaPautaContagemVotos);
         });
-
         sessaoVotacaoService.concluirEnvio(sessaoVotacaos);
-        log.info("Envio de resultados concluído. Número de votos por tipo: {}", listaPautaContagemVotos);
     }
 
     private String converterParaJson(Object o) {
@@ -75,7 +73,7 @@ public class EnviarResultadoVotacaoSchedule {
         Map<String, Map<Boolean, Long>> contagemVotosPorPautaETipo = sessaoVotacaos.stream()
                 .flatMap(sessaoVotacao -> votoService.buscarVotos(sessaoVotacao.getPauta().getId()).stream())
                 .collect(Collectors.groupingBy(
-                        voto -> voto.getPauta().getDescricao() + " - " +voto.getPauta().getId(),
+                        voto -> voto.getPauta().getDescricao() + " - " + voto.getPauta().getId(),
                         Collectors.groupingBy(Voto::isVoto, Collectors.counting())
                 ));
         return contagemVotosPorPautaETipo;
