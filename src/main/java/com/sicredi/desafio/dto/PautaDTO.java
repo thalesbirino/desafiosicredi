@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data
@@ -12,6 +13,6 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @Builder
 public class PautaDTO {
-    @NotNull(message = "O campo descricao não pode ser vazio!")
+    @NotBlank(message = "O campo descricao não pode ser vazio!")
     private String descricao;
 }

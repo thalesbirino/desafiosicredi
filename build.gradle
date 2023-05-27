@@ -19,7 +19,7 @@ dependencies {
 	implementation 'com.github.tomakehurst:wiremock-jre8:2.35.0'
 	implementation(platform("software.amazon.awssdk:bom:2.15.14"))
 	implementation ('software.amazon.awssdk:sqs:2.20.67')
-	implementation 'javax.validation:validation-api:2.0.1.Final'
+	implementation 'org.springframework.boot:spring-boot-starter-validation:3.0.4'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	compileOnly 'org.projectlombok:lombok:1.18.28'
 	annotationProcessor 'org.projectlombok:lombok:1.18.28'
