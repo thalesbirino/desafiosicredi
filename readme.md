@@ -12,7 +12,7 @@ O projeto possui as seguintes dependências:
 - **Lombok**
 - **MySQL Connector/J**
 
-### Configuração do banco de dados - Se quiser executar apontando para banco local
+### Configuração do banco de dados - Se quiser executar apontando para banco local - Atualmente o projeto está apontando para um BD na AWS
 
 Para configurar o banco de dados MySQL, você pode executar o seguinte comando Docker:
 
