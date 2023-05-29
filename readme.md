@@ -1,5 +1,3 @@
----
-
 ### Dependências do Projeto
 
 O projeto possui as seguintes dependências:
